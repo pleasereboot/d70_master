@@ -2,7 +2,7 @@
 
 /**
  * Here we override the default HTML output of drupal.
- * refer to http://drupal.org/node/550722
+ * refer to https://drupal.org/node/457740
  */
 
 // Auto-rebuild the theme registry during theme development.
@@ -19,7 +19,7 @@ if (theme_get_setting('basic_tabs')) {
 }
 
 function basic_preprocess_html(&$vars) {
-  global $user;
+  global $user, $language;
 
   // Add role name classes (to allow css based show for admin/hidden from user)
   foreach ($user->roles as $role){
