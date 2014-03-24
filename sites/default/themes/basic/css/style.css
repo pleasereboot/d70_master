@@ -385,6 +385,14 @@ h1.title {
         margin-right: 25px;
       }
 
+      #block-views-highlights-block .views-row-2 {
+        background-color: #ccc;
+      }      
+
+      #block-views-highlights-block .views-row-3 {
+        background-color: #eee;
+      }
+
     #block-views-highlights-block h2 {
       color: #e1e1e1;
       text-transform: uppercase;
@@ -392,6 +400,15 @@ h1.title {
       line-height: 50px;
       font-weight: bold;
     }
+
+        #block-views-highlights-block .views-row-1  h2 {
+          font-weight: normal;
+        }
+
+        #block-views-highlights-block .views-row-2  h2, 
+        #block-views-highlights-block .views-row-3  h2 {
+          color: #fff;
+        }
 
     .highlights-title,
     .highlights-body,
@@ -491,10 +508,18 @@ h1.title {
 
 @media screen and (max-width: 960px) {
   #block-views-highlights-block .views-row {
-    width: 100%;
+    width: 90%;
+    margin: 0px 5% 25px 5%;
   }
 
   #block-views-highlights-block .views-row-odd {
     margin-right: 0px;
   }
+
+  #footer-wrapper {
+    background-color: #fff;
+    height: auto;
+    vertical-align: top;
+    padding: 0px 5%;
+  }  
 }
