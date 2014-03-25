@@ -4,7 +4,6 @@ body {
   letter-spacing: 0.03em; 
   background-color: #e1e1e1;
   letter-spacing: -0.1px;
-
 }
 
 a:link, a:visited {
@@ -378,6 +377,10 @@ h1.title {
 #block-views-highlights-block {
   
 }
+
+  #block-views-highlights-block h2.block-title {
+    display: none;
+  }
 
   #block-views-highlights-block .views-row {
     vertical-align: top;
