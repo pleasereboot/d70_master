@@ -1,0 +1,230 @@
+<?php
+
+
+function tm_preprocess_page(&$vars, $hook) {
+  //drupal_add_js(array('tm' => array('nid' => $variables['node']->nid)),'setting');   //send var to js
+  drupal_add_js(drupal_get_path('module', 'tm') . '/js/tm.master.js');
+    
+  $variables['scripts'] = drupal_get_js();
+
+}
+
+function tm_block_info() {
+  $blocks['tm_login'] = array(
+    'info' => t('Connexion'), //The name that will appear in the block list.
+    'cache' => DRUPAL_CACHE_GLOBAL, // The block is the same for every user on every page where it is visible.
+  );  
+  return $blocks;
+}
+ 
+function tm_block_view($delta = '') {
+  switch ($delta) {
+    case 'tm_login':
+            $loginForm = drupal_get_form("user_login");
+
+            $loginForm['name']['#description'] = '';
+            $loginForm['name']['#title_display'] = "invisible";
+            $loginForm['name']['#attributes']['placeholder'] = t( 'Courriel' );
+
+            $loginForm['pass']['#description'] = '';
+            $loginForm['pass']['#attributes']['placeholder'] = t( 'Password' );
+            $loginForm['pass']['#title_display'] = "invisible";
+
+
+            $loginForm['action']['submit']['#attributes']['class'] = array('lien-fleche');    
+            // $loginForm['action']['submit']['#suffix'] = div('test');            
+
+            $createForm = '<h2>Créer VOTRE COMPTE coupal</h2>';
+            $createForm .= 'Créez votre compte COUPAL pour gérer vos commandes, recevoir des offres promotionnelles personnalisées et...<br /><br /><br />';
+            $createForm .= '<a href="user/register" class="button link-red">inscrivez-vous</a>';
+
+            $loginForm = '<div id="loginform"><h2>Accès compte client</h2>' . drupal_render($loginForm) . '</div>';
+            $createForm = '<div id="createform">' . $createForm . '</div>';
+
+          // e($loginForm);
+            $block['subject'] = t("");
+            $block['content'] = '<div id="loginbox">' . $loginForm . $createForm . '</div>';
+
+    return $block;  
+  }
+}
+
+function tm_node_view($node, $view_mode, $langcode) {
+  if($node->nid == 14) {
+    $node->content['field_colonne_de_gauche'][0]['#markup'] .= render(drupal_get_form('tm_contact_form'));
+  }
+}
+
+function tm_admin_paths_alter(&$paths) {
+  // $paths['user'] = FALSE;
+  // $paths['user/*'] = FALSE;
+  // $paths['user/*/edit-profile'] = FALSE;
+  // $paths['user/1/edit'] = FALSE;
+  // $paths['node/*/edit'] = FALSE;
+  // $paths['node/add/*'] = FALSE;
+  //$paths['admin/members'] = FALSE;
+} 
+  
+
+function tm_contact_form($form, &$form_submit) {
+  $form['title'] = array(
+    '#size' => 10,
+    '#type' => 'textfield',
+    '#default_value' => '',
+    '#title' => t('Titre'),
+    '#maxlength' => 60,
+  );
+  $form['email'] = array(
+    '#size' => 32,
+    '#type' => 'textfield',
+    '#default_value' => '',
+    '#required' => TRUE,
+    '#title' => t('Courriel'),
+    '#maxlength' => 60,
+  );
+  $form['message'] = array(
+    '#type' => 'textarea',
+    '#default_value' => '',
+    '#required' => TRUE,
+    '#title' => t('Message'),
+  );  
+
+  $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Envoyer'),
+  );
+
+  return $form;
+}
+
+  function tm_contact_form_submit($form, &$form_state) {
+
+    
+    drupal_set_message('submitted (need to mail)');
+  }
+
+function dsmr($msg) {
+  return  drupal_set_message('<pre>'. print_r($msg, TRUE) .'</pre>');
+}
+
+
+function getBoiteOutils(){
+  $basepath = '/coupalsite';
+
+  return '
+  <div id="coffre-outils">
+      <div class="content-top">
+        <div class="chevron"></div>
+        <div class="coffre"></div>
+      </div>
+      <div class="content">
+        <a class="readmore">En savoir +</a>
+        <div class="menu">
+          <a href="' . $basepath . '/mon-coupal">Moncoupal.com<span></span></a>
+          <a href="' . $basepath . '/ouverture-de-compte">Ouverture du compte<span></span></a>
+          <a href="' . $basepath . '/carrieres">Carrières<span></span></a>
+          <a href="' . $basepath . '/qui-sommes-nous">Qui sommes-nous?<span></span></a>
+          <a href="' . $basepath . '/trouvez-un-magasin">Trouvez un magasin<span></span></a>
+          <a href="' . $basepath . '/la-relation-avant-tout">Contactez-nous<span></span></a>
+        </div>
+      </div>
+      <div class="content-bottom"></div>
+    </div>
+    ';
+}
+
+function getVisuelAccueil(){
+  global $language ;
+  $lang_name = $language->language ;
+
+  // e($language);
+
+  return '
+  <div id="visuel">
+    <div class="bg">
+      <div class="content">
+        <div class="textline-1">' . t('Coupal, un partenaire solide') . '</div>
+        <div class="separator">
+          <div class="line line1"></div>
+          <div class="line line2"></div>
+        </div>
+        <div class="textline-2">' . t('pour tous vos projets de construction et de rénovation') . '</div>
+        <div class="blocks">
+          <a href="node/1" class="block block-1">
+            <div class="image"></div>
+            <label class="block-title">' . t('Commercial') . '<span></span></label>
+          </a>
+          <a href="node/2" class="block block-2">
+            <div class="image"></div>
+            <label class="block-title">' . t('Multilogement') . '<span></span></label>
+          </a>
+          <a href="node/3" class="block block-3">
+            <div class="image"></div>
+            <label class="block-title">' . t('Residential') . '<span></span></label>
+          </a>
+          <a href="node/4" class="block block-4">
+            <div class="image"></div>
+            <label class="block-title">' . t('Renovation') . '<span></span></label>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+    ';
+}
+
+function getFooter(){
+  $basepath = '/coupalsite';
+
+  $lang_block = module_invoke('locale', 'block_view', 'language');
+  $search_block = render(module_invoke('search', 'block_view', 'search'));
+          
+  return '
+  <div id="myFooter">
+      <div class="col col1">
+          <a href="' . $basepath . '/qui-sommes-nous">Qui sommes-nous?</a> 
+          <a href="' . $basepath . '/trouvez-un-magasin">Trouvez un magasin</a>'.
+          $lang_block['content'].'
+          <a href="' . $basepath . '/la-relation-avant-tout">Contactez-nous</a>
+      </div>
+      <div class="col col2">
+          <a href="/coupalsite/commercial">Commercial</a>
+          <a href="' . $basepath . '/multilogement">Multilogement</a>
+          <a href="' . $basepath . '/residentiel">Résidentiel</a>
+          <a href="' . $basepath . '/renovation">Rénovation</a>
+      </div>
+      <div class="col col3">
+          <a class="texte_rouge" href="node/5">Coffre à outils</a>
+          <a class="texte_orange" href="' . $basepath . '/la-relation-avant-tout">La relation avant tout</a>
+          <a href="' . $basepath . '/carrieres">Vous désirez vous joindre <br />à l\'équipe Coupal?</a>
+      </div>
+      <div class="col col4">'.
+          $search_block.'
+      </div>
+      <div class="footer-bottom">
+        <p>© COUPAL 2013, tous droits réservés <span class="footer-separator">|</span>  <a href="#">Conditions d\'utilisation</a> <span class="footer-separator">|</span> <a href="/fr/sitemap">Plan du site</a> <span class="footer-separator">|</span> <a class="TM" target="_blank" href="http://tmdesign.ca">Concept et réalisation : <span>TMdesign.ca</span></a>
+        </p>
+        <a class="toplink" href="#top">' . t('Haut') . '</a>
+      </div>
+    </div>
+    ';
+}
+
+  function e($data='test', $print=true){
+    $return = '<pre style="background-color: #fff;">' . print_r($data, $print) . '</pre>';
+    
+    echo($return);
+    
+    return $return;
+  }
+
+  function div($html,$OPTION = ""){
+    if(is_array($OPTION)){
+      while(list($key, $value) = each($OPTION)) {
+        $inside .= ' '.$key.'="'.$value.'"';
+      }
+    } 
+    $html = '<div '.$inside.'>'.$html.'</div>';
+    return $html;
+  }
+
