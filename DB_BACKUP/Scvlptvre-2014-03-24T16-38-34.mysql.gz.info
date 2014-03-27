@@ -1,8 +1,0 @@
-filename = "Scvlptvre-2014-03-24T16-38-34"
-description = ""
-datestamp = "1395693516"
-generator = "Backup and Migrate (http://drupal.org/project/backup_migrate)"
-generatorversion = "7.x-2.x"
-sites[0][version] = "7.27-dev"
-sites[0][name] = "Scvlptvre"
-sites[0][url] = "http://localhost/scvlptvre/"
