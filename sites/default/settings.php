@@ -215,13 +215,13 @@ $databases = array (
   array (
     'default' => 
     array (
-      'database' => 'd70_master',
+      'database' => 'd70_passion',
       'username' => 'root',
       'password' => '',
       'host' => 'localhost',
       'port' => '',
       'driver' => 'mysql',
-      'prefix' => 'd70_',
+      'prefix' => 'passion_',
     ),
   ),
 );
